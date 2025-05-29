@@ -1,0 +1,7 @@
+#test
+/home/suphotio/Micro/Projet5/terraform/ansible/cles_ssh_key_tst.pem
+# .gitignore
+*.pem
+terraform.tfstate
+terraform.tfstate.backup
+
