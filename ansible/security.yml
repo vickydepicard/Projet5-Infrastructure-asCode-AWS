@@ -1,0 +1,41 @@
+---
+- name: 🔐 Sécurisation de base avec UFW et Fail2ban
+  hosts: web
+  become: true
+
+  tasks:
+
+    - name: 🛠 Mettre à jour la liste des paquets
+      apt:
+        update_cache: yes
+
+    - name: 📦 Installer UFW et fail2ban
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - ufw
+        - fail2ban
+
+    - name: 🔥 Configurer UFW pour autoriser SSH
+      ufw:
+        rule: allow
+        name: OpenSSH
+
+    - name: 🔥 Autoriser HTTP (port 80)
+      ufw:
+        rule: allow
+        port: 80
+
+    - name: 🔒 Activer UFW par défaut
+      ufw:
+        state: enabled
+        policy: deny
+        logging: on
+
+    - name: ⚙️ S’assurer que fail2ban est démarré et activé
+      service:
+        name: fail2ban
+        state: started
+        enabled: true
+
